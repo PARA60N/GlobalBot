@@ -7,12 +7,20 @@ A discord bot made with Skript and Vixio.
  * [Vixio](http://vixio.space/download/)
  * [Skript](https://github.com/bensku/Skript/releases)
 
-## Commands
+## General Commands
 
 Command | Aliases | Usage | Description
 ------------ | ------------- | ------------- | -------------
 stats | - | ?Stats [Game] [Username] [Console] | Gives the life time stats from the game provided.
 Bank | - | - | -
+
+## Music Commands
+
+Command | Aliases | Usage | Description
+------------ | ------------- | ------------- | -------------
+Play | - | ?Play Text/Url | Plays the url provide or searches youtube to the text.
+musicchannel | - | ?musicchannel name of a voice channel | sets the default channel for the bot to join if the user isn't in a channel.
+
 
 ## Current plans
 
