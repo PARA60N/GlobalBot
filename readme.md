@@ -19,7 +19,7 @@ Bank | - | - | -
 Command | Aliases | Usage | Description
 ------------ | ------------- | ------------- | -------------
 Play | - | ?Play Text/Url | Plays the url provide or searches youtube to the text.
-musicchannel | - | ?musicchannel name of a voice channel | sets the default channel for the bot to join if the user isn't in a channel.
+Musicchannel | - | ?musicchannel name of a voice channel | sets the default channel for the bot to join if the user isn't in a channel.
 
 
 ## Current plans
