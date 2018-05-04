@@ -1,0 +1,48 @@
+Options:
+  Bot: GlobalBot
+
+#?stats fortnite para60n pc
+discord command stats [<Text>] [<Text>] [<Text>]:
+  prefixes: ?
+  description: Provides the stats of a user depending on the game and console type provided.
+  executable in: guild
+  bots: {@Bot}
+  trigger:
+    if arg 1 is set:
+      if arg 2 is set:
+        if arg 3 is set:
+          if arg 1 is "fortnite":
+
+            set {_APIKEY} to "022bd045-caa3-47be-af01-6430f25f72d9"
+
+            set {_URL} to "https://api.fortnitetracker.com/v1/profile/%arg 3%/%arg 2%"
+
+            set {_UserURL} to "https://fortnitetracker.com/profile/%arg 3%/%arg 2%"
+
+            send a "get" request to {_URL} with the headers "TRN-Api-Key: %{_APIKEY}%" and "User-agent: DiscordBot"
+            set {_resp} to the last http response
+            set {_body} to {_resp}'s body
+            copy json {_body} to {_Fortnite::*}
+            if {{@Bot}::%id of event-user%::Color} is set:
+              set {_Colors::*} to {{@Bot}::%id of event-user%::Color} split at ", "
+            else:
+              set {{@Bot}::DefaultColor} to "0, 217, 255"
+              set {_Colors::*} to {{@Bot}::DefaultColor} split at ", "
+            create embed:
+              set the colour of the embed to color from rgb {_Colors::1} parsed as integer, {_Colors::2} parsed as integer, {_Colors::3} parsed as integer
+              set the author info of the embed to author named "%event-user%'s Fortnite Stats" with url "%{_UserURL}%" and icon "https://cdn.discordapp.com/attachments/432679072179683338/440997682631147522/fortnite.png"
+              loop {_Fortnite::lifeTimeStats::*}:
+                set {_Stats} to "%{_Fortnite::lifeTimeStats::%loop-index%::*}%"
+                set {_Values::*} to {_Stats} split at " and "
+                add split field named "%{_Values::1}%" with value "%{_Values::2}%" to field of embed
+              set the footer of embed to footer with text "%event-user%" and no icon
+              set the timestamp of embed to now
+            reply with last created embed
+          else:
+            reply with "`Fortnite` is currently the only supported game!"
+        else:
+          reply with "You must provide a console!"
+      else:
+        reply with "You must provide a player!"
+    else:
+      reply with "You must provide a game!"

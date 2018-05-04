@@ -1,0 +1,61 @@
+Options:
+  Bot: GlobalBot
+
+#Play Command - Joins the event-users channel then plays music from either the search or link provided.
+discord command play [<Text>]:
+  prefixes: ?
+  description: Plays the song closest to the text provided or the link provided.
+  executable in: guild
+  bots: {@Bot}
+  trigger:
+    if arg 1 is set:
+      if event-member's voice channel is set:
+        if arg 1 contains "watch?v=":
+          play arg 1 in event-guild with event-bot
+        else:
+          search youtube for arg 1 and store the results in {_Results::*}
+          join event-member's voice channel with event-bot
+          wait 1 seconds
+          play {_Results::1} in event-guild with event-bot
+          wait 1 seconds
+          if event-bot is playing in event-guild:
+            set {_Song} to track event-bot is playing in event-guild
+            set {_Songs::*} to queue of event-bot in event-guild
+            loop {_Songs::*}:
+              add 1 to {_Num}
+              add "%{_Num}%. %loop-value%%nl%" to {_SongsFormatted::*}
+            set {_SongsFormatted} to "%{_SongsFormatted::*}%"
+            replace all ", " and " and " in {_SongsFormatted} with ""
+            create embed:
+              set the colour of the embed to color from rgb 182, 0, 0
+              set the author info of the embed to author named "Playing %name of {_Song}%" with url "%url of {_Song}%" and icon "https://cdn.discordapp.com/attachments/432679072179683338/435731380664795141/PlayArrow.png"
+              if {_Num} is greater than 0:
+                set the description of the embed to "%zero width space%"
+                add field named "%{_Num}% Songs In Queue" with value "```markdown%nl%%{_SongsFormatted}%```" to field of embed
+              set the footer of embed to footer with text "%duration of {_Song}% | Now Playing" and no icon
+            reply with last created embed and store it in {_MusicMsg}
+            add reaction "⏹" to reactions of {_MusicMsg} with event-bot
+            add reaction "⏯" to reactions of {_MusicMsg} with event-bot
+            add reaction "⏭" to reactions of {_MusicMsg} with event-bot
+            add reaction "🗒" to reactions of {_MusicMsg} with event-bot
+      else:
+        if {{@Bot}::%id of event-guild%::DefaultMusicChannel} is set:
+          set {_Channel} to channel with id "%{{@Bot}::%id of event-guild%::DefaultMusicChannel}%"
+          join {_Channel} with event-bot
+        else:
+          reply with "You must be in a channel!"
+    else:
+      reply with "You must provide a link or text to search for!"
+
+
+discord command setmusicchannel [<Text>]:
+  prefixes: ?
+  description: sets the default music channel.
+  executable in: guild
+  bots: {@Bot}
+  trigger:
+    if arg 1 is set:
+      loop voice channels of event-guild:
+        if "%loop-channel%" contains arg 1:
+          set {{@Bot}::%id of event-guild%::DefaultMusicChannel} to id of loop-channel
+          reply with "Default music channel now set to %name of loop-channel%!"
