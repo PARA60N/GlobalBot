@@ -12,7 +12,7 @@ A discord bot made with Skript and Vixio.
 Command | Aliases | Usage | Description
 ------------ | ------------- | ------------- | -------------
 stats | - | ?Stats [Game] [Username] [Console] | Gives the life time stats from the game provided.
-Filler | - | - | - 
+- | - | - | -
 
 ## Current plans
 
