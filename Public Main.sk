@@ -1,0 +1,12 @@
+Options:
+  Bot: GlobalBot
+  Token: Token Here
+
+on skript load:
+  login to "{@Token}" with the name "{@Bot}"
+  if {@Bot}'s status is not online:
+    broadcast "&8[&bVixio&8] &bReconnecting {@Bot}"
+    logout of {@Bot}
+    wait 3 seconds
+    login to "{@Token}" with the name "{@Bot}"
+  broadcast "&8[&bVixio&8] &aConnected {@Bot}"
