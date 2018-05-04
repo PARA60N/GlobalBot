@@ -1,6 +1,6 @@
 Options:
   Bot: GlobalBot
-  Token: Token Here
+  Token: NDQxNTcwNDY2ODg5NzI4MDAw.Dc13cQ.M0deRqoiUrbv04NjxojI-KdP2Ek
 
 on skript load:
   login to "{@Token}" with the name "{@Bot}"
